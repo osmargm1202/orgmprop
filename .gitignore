@@ -1,18 +1,31 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
+# Binaries
+orgmprop
+orgmprop-*
+*.exe
 
-# Virtual environments
-.venv
+# Go build artifacts
+/vendor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Config (local)
+config.yaml
+
+# Test files
+*.test
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
 temp/
-.env
-
-test/
-google_credentials.json
-google-credentials.json
-orgmdev_google.json
-.env.yaml

@@ -1,0 +1,16 @@
+{
+  "tipos": {
+    "Proyectos": {
+      "carpetas": [
+        "Comunicacion",
+        "Diseño",
+        "Estudios",
+        "Calculos",
+        "Levantamientos",
+        "Entregas",
+        "Recibido",
+        "Oferta"
+      ]
+    }
+  }
+}

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta ORGM - Medidor Testigo y Normalización EDESUR</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Barlow', sans-serif;
+        font-weight: 300;
+        font-size: 11px;
+        line-height: 1.3;
+        color: #15213F;
+        background: linear-gradient(135deg, #c2c2c2 0%, #e6e6e6 100%);
+    }
+
+    .page {
+        width: 8.5in;
+        min-height: 11in;
+        margin: 0 auto;
+        background: rgb(255, 255, 255);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        position: relative;
+        padding-bottom: 60px;
+    }
+
+    .header {
+        background: linear-gradient(135deg, #476FD6 0%, #1C3F99 100%);
+        padding: 1.2rem 1.5rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .logo-space {
+        width: 120px;
+        height: 45px;
+        margin-bottom: 0.5rem;
+    }
+
+    .logo-empresa {
+        width: 100%;
+        height: 100%;
+        background-image: url('https://r2.or-gm.com/orgm.svg');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .header-title {
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        color: white;
+    }
+
+    .header-subtitle {
+        font-size: 0.95rem;
+        font-weight: 300;
+        opacity: 0.9;
+    }
+
+    .content {
+        padding: 1.2rem 1.5rem 1rem;
+        position: relative;
+    }
+
+    /* EFECTO HOMOGÉNEO: Gradiente sutil */
+    .intro-section {
+        background: linear-gradient(135deg, rgba(71, 111, 214, 0.05) 0%, transparent 100%);
+        padding: 0.8rem 1rem;
+        margin-bottom: 0.8rem;
+        border-radius: 6px;
+        break-inside: avoid;
+    }
+
+    .intro-section::before {
+        display: none;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #476FD6;
+        margin-bottom: 0.6rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1C3F99;
+        margin: 1rem 0 0.5rem;
+        padding-left: 0;
+        position: relative;
+    }
+
+    h2::before {
+        display: none;
+    }
+
+    h3 {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #476FD6;
+        margin: 0.8rem 0 0.4rem;
+    }
+
+    .service-list {
+        margin: 0.5rem 0;
+        padding-left: 0.8rem;
+        list-style: none;
+    }
+
+    .service-list li {
+        padding: 0.2rem 0;
+        line-height: 1.3;
+        color: #1e293b;
+        font-weight: 400;
+        position: relative;
+        padding-left: 1rem;
+    }
+
+    .service-list li::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        top: 0.2rem;
+        font-size: 0.9rem;
+        color: #203e97;
+    }
+
+    .service-list ul {
+        margin: 0.2rem 0 0.2rem 0.5rem;
+        padding-left: 0.8rem;
+        break-inside: avoid;
+    }
+
+    .service-list ul li {
+        padding: 0.15rem 0;
+        font-size: 0.95em;
+    }
+
+    .service-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 0.5rem 0;
+    }
+
+    /* EFECTO HOMOGÉNEO: Aplicado a tarjetas de servicio */
+    .service-card {
+        background: linear-gradient(135deg, rgba(71, 111, 214, 0.05) 0%, transparent 100%);
+        border-radius: 6px;
+        padding: 0.8rem;
+        break-inside: avoid;
+    }
+
+    .compact-card {
+        background: linear-gradient(135deg, rgba(71, 111, 214, 0.05) 0%, transparent 100%);
+        border-radius: 6px;
+        padding: 0.8rem;
+        break-inside: avoid;
+    }
+
+    /* EFECTO HOMOGÉNEO: Info box */
+    .info-box {
+        background: linear-gradient(135deg, rgba(71, 111, 214, 0.05) 0%, transparent 100%);
+        border-radius: 6px;
+        padding: 0.8rem;
+        margin: 0.8rem 0;
+        break-inside: avoid;
+    }
+
+    .info-box-title {
+        font-weight: 600;
+        color: #1C3F99;
+        margin-bottom: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    /* EFECTO HOMOGÉNEO: Timeline */
+    .timeline-simple {
+        margin: 0.6rem 0;
+        padding: 0.8rem;
+        background: linear-gradient(135deg, rgba(71, 111, 214, 0.05) 0%, transparent 100%);
+        border-radius: 6px;
+        break-inside: avoid;
+    }
+
+    .timeline-simple-item {
+        margin: 0.4rem 0;
+        line-height: 1.4;
+    }
+
+    .timeline-simple-item strong {
+        color: #1C3F99;
+        display: block;
+        margin-bottom: 0.2rem;
+    }
+
+    .timeline-simple-item small {
+        color: #666;
+        font-size: 0.9em;
+    }
+
+    /* EFECTO HOMOGÉNEO: Costos */
+    .pricing-simple {
+        margin: 0.6rem 0;
+        break-inside: avoid;
+    }
+
+    .pricing-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0.8rem;
+        margin: 0.3rem 0;
+        background: linear-gradient(135deg, rgba(71, 111, 214, 0.05) 0%, transparent 100%);
+        border-radius: 4px;
+    }
+
+    .pricing-row.total {
+        background: linear-gradient(135deg, #476FD6, #1C3F99);
+        color: white;
+        font-weight: 600;
+        margin-top: 0.4rem;
+    }
+
+    .pricing-row.total span:last-child {
+        color: white;
+    }
+
+    .pricing-label {
+        font-weight: 500;
+        color: #1C3F99;
+    }
+
+    .pricing-value {
+        font-weight: 600;
+        color: #476FD6;
+    }
+
+    .pricing-row.total .pricing-value {
+        color: white;
+    }
+
+    /* EFECTO HOMOGÉNEO: Forma de pago */
+    .payment-simple {
+        margin: 0.6rem 0;
+        break-inside: avoid;
+    }
+
+    .payment-section {
+        margin: 0.6rem 0;
+        padding: 0.6rem 0.8rem;
+        background: linear-gradient(135deg, rgba(71, 111, 214, 0.05) 0%, transparent 100%);
+        border-radius: 6px;
+    }
+
+    .payment-section h4 {
+        font-size: 0.9rem;
+        margin-bottom: 0.4rem;
+        color: #1C3F99;
+    }
+
+    .payment-line {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.3rem 0;
+        line-height: 1.3;
+        font-size: 0.95em;
+    }
+
+    .payment-line span:first-child {
+        font-weight: 500;
+    }
+
+    .payment-line span:last-child {
+        color: #476FD6;
+        font-weight: 600;
+    }
+
+    /* EFECTO HOMOGÉNEO: Nota */
+    .note-box {
+        background: linear-gradient(135deg, rgba(71, 111, 214, 0.05) 0%, transparent 100%);
+        border-radius: 6px;
+        padding: 0.6rem 0.8rem;
+        margin: 0.5rem 0;
+        position: relative;
+        break-inside: avoid;
+        font-size: 0.95em;
+    }
+
+    .note-box::before {
+        content: '\f26c';
+        font-family: bootstrap-icons;
+        color: #d97706;
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-right: 0.4rem;
+    }
+
+    .note-box p {
+        margin: 0;
+    }
+
+    .info-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .info-list li {
+        padding: 0.3rem 0;
+        position: relative;
+        padding-left: 1rem;
+    }
+
+    .info-list li::before {
+        content: '▸';
+        position: absolute;
+        left: 0;
+        color: #476FD6;
+        font-weight: bold;
+    }
+
+    .footer {
+        background: linear-gradient(135deg, #15213F 0%, #1C3F99 100%);
+        color: white;
+        padding: 0.8rem 1.5rem;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        font-size: 0.85rem;
+    }
+
+    .highlight-text {
+        font-weight: 500;
+        color: #476FD6;
+    }
+
+    p {
+        margin: 0.4rem 0;
+        line-height: 1.4;
+    }
+
+    /* Iconos Bootstrap */
+    i.bi {
+        margin-right: 0.4rem;
+        color: #476FD6;
+    }
+
+    h2 i.bi {
+        margin-right: 0.5rem;
+    }
+
+    h3 i.bi {
+        margin-right: 0.4rem;
+    }
+
+    @media print {
+        body {
+            background: white !important;
+        }
+        
+        .page {
+            size: Letter;
+            margin: 0;
+            box-shadow: none;
+            padding-bottom: 0.8in;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 0;
+            page-break-after: avoid;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="header">
+            <div class="logo-space">
+                <div class="logo-empresa"></div>
+            </div>
+            <h1 class="header-title">Propuesta de Servicios</h1>
+            <p class="header-subtitle">Gestión e Instalación de Medidor Testigo y Sometimiento de Normalización EDESUR</p>
+        </header>
+        
+        <main class="content">
+            <section class="intro-section">
+                <h1>Medidor Testigo y Normalización EDESUR</h1>
+                <p><strong>ORGM</strong>, comprometida con el fortalecimiento de la confiabilidad en los sistemas eléctricos y la defensa de los intereses de sus clientes, presenta esta propuesta integral para:</p>
+                
+                <ul class="service-list">
+                    <li>Gestión e instalación de <span class="highlight-text">medidor testigo para certificación de medición</span>, evitando discrepancias futuras en facturación.</li>
+                    <li><span class="highlight-text">Sometimiento de normalización de factura irregular en EDESUR</span>, con representación técnica y legal especializada.</li>
+                </ul>
+                
+                <p>Ambos servicios brindan seguridad técnica y respaldo normativo, garantizando mecanismos de control y defensa sólidos frente a eventuales conflictos de facturación o medición.</p>
+            </section>
+
+            <h2><i class="bi bi-lightning-fill"></i> Alcance de los Servicios</h2>
+            
+            <div class="service-grid">
+                <div class="service-card">
+                    <h3><i class="bi bi-plug"></i> Gestión e Instalación de Medidor Testigo</h3>
+                    <ul class="service-list">
+                        <li><strong>Suministro</strong> de medidor testigo aprobado y calibrado</li>
+                        <li><strong>Instalación</strong> del medidor en sitio</li>
+                        <li><strong>Gestión de aprobación</strong> ante entidades correspondientes</li>
+                        <li><strong>Gestión de calibración</strong> con normativas vigentes</li>
+                        <li><strong>Pruebas y puesta en marcha</strong> para validación</li>
+                    </ul>
+                    
+                    <div class="note-box">
+                        <p><strong>Nota:</strong> La calibración del medidor tiene vigencia de <strong>1 año</strong>, pero será útil para fines legales siempre que los sellos de seguridad permanezcan íntegros.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <h3><i class="bi bi-file-text"></i> Sometimiento Normalización Factura Irregular</h3>
+                    <ul class="service-list">
+                        <li>Solicitud formal de reclamación ante EDESUR</li>
+                        <li>Seguimiento y representación ante:
+                            <ul>
+                                <li><strong>EDESUR</strong></li>
+                                <li><strong>Superintendencia de Electricidad</strong></li>
+                                <li><strong>PROTECOM</strong></li>
+                            </ul>
+                        </li>
+                        <li>Análisis técnico y preparación de argumentos</li>
+                        <li>Levantamiento de infraestructura eléctrica</li>
+                        <li>Logística y entrega de información regulatoria</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2><i class="bi bi-currency-dollar"></i> Costos</h2>
+            <div class="pricing-simple">
+                <div class="pricing-row">
+                    <span class="pricing-label">Gestión e instalación de medidor testigo</span>
+                    <span class="pricing-value">USD 3,450</span>
+                </div>
+                <div class="pricing-row">
+                    <span class="pricing-label">Sometimiento normalización factura irregular EDESUR</span>
+                    <span class="pricing-value">USD 1,800</span>
+                </div>
+                <div class="pricing-row total">
+                    <span>Total Propuesta</span>
+                    <span>USD 5,250 + impuestos</span>
+                </div>
+            </div>
+
+            <h2><i class="bi bi-credit-card"></i> Forma de Pago</h2>
+            <div class="payment-simple">
+                <div class="payment-section">
+                    <h4>Medidor Testigo (USD 3,450)</h4>
+                    <div class="payment-line">
+                        <span>70% Anticipo al inicio</span>
+                        <span>USD 2,415</span>
+                    </div>
+                    <div class="payment-line">
+                        <span>30% Contra entrega (calibración y puesta en marcha)</span>
+                        <span>USD 1,035</span>
+                    </div>
+                </div>
+                
+                <div class="payment-section">
+                    <h4>Normalización Factura (USD 1,800)</h4>
+                    <div class="payment-line">
+                        <span>70% Anticipo al inicio</span>
+                        <span>USD 1,260</span>
+                    </div>
+                    <div class="payment-line">
+                        <span>30% Contra entrega (resolución final)</span>
+                        <span>USD 540</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2><i class="bi bi-calendar-week"></i> Cronograma</h2>
+            <div class="timeline-simple">
+                <div class="timeline-simple-item">
+                    <strong><i class="bi bi-plug"></i> Medidor testigo</strong>
+                    <span>2 a 3 semanas</span>
+                    <br><small>Dependiendo de disponibilidad de equipos y programación de calibración</small>
+                </div>
+            </div>
+            <div class="timeline-simple">
+                <div class="timeline-simple-item">
+                    <strong><i class="bi bi-file-text"></i> Normalización factura irregular</strong>
+                    <span>6 a 10 semanas</span>
+                    <br><small>Sujeto a respuesta de EDESUR y organismos reguladores</small>
+                </div>
+            </div>
+
+            <h2><i class="bi bi-box"></i> Entregables</h2>
+            <div class="service-grid">
+                <div class="compact-card">
+                    <h3><i class="bi bi-plug"></i> Medidor Testigo</h3>
+                    <ul class="service-list">
+                        <li>Medidor instalado, calibrado y aprobado</li>
+                        <li>Documentación técnica completa</li>
+                        <li>Informe de pruebas</li>
+                        <li>Acta de puesta en marcha</li>
+                    </ul>
+                </div>
+                <div class="compact-card">
+                    <h3><i class="bi bi-file-text"></i> Normalización</h3>
+                    <ul class="service-list">
+                        <li>Expediente completo del sometimiento</li>
+                        <li>Copia de resolución emitida</li>
+                        <li>Documentos EDESUR/Superintendencia/PROTECOM</li>
+                        <li>Informe técnico del caso</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3 class="info-box-title"><i class="bi bi-exclamation-triangle"></i> Notas Generales</h3>
+                <ul class="info-list">
+                    <li><strong>Acceso requerido:</strong> El cliente deberá facilitar acceso a las instalaciones para instalación del medidor y levantamientos técnicos.</li>
+                    <li><strong>Plazos regulatorios:</strong> Los tiempos de resolución en reclamaciones dependen de EDESUR y organismos regulatorios.</li>
+                    <li><strong>Garantía ORGM:</strong> Enfoque técnico y normativo especializado, con acompañamiento integral en todo el proceso.</li>
+                </ul>
+            </div>
+
+            <section class="intro-section">
+                <h2><i class="bi bi-handshake"></i> Compromiso ORGM</h2>
+                <p>Agradecemos la oportunidad de presentar esta propuesta especializada. <strong>ORGM</strong> ofrece soluciones técnicas y regulatorias que respaldan la operación eléctrica de nuestros clientes, <span class="highlight-text">evitando conflictos de facturación y asegurando confiabilidad en la medición</span>.</p>
+                
+                <p><strong><i class="bi bi-envelope"></i> Para consultas adicionales, quedamos atentos</strong></p>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <strong>ORGM – Consultoría Energética y Desarrollo de Proyectos</strong>
+        </footer>
+    </div>
+</body>
+</html>

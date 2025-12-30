@@ -2,7 +2,7 @@ package assets
 
 import "embed"
 
-//go:embed template.css propuesta.yaml html_template.yaml logo.svg
+//go:embed template.css propuesta.yaml html_template.yaml logo.svg presupuesto.yaml
 var FS embed.FS
 
 // GetCSS returns the embedded CSS template
@@ -23,5 +23,10 @@ func GetHTMLTemplateYAML() ([]byte, error) {
 // GetLogo returns the embedded logo SVG
 func GetLogo() ([]byte, error) {
 	return FS.ReadFile("logo.svg")
+}
+
+// GetPresupuestoYAML returns the embedded presupuesto YAML
+func GetPresupuestoYAML() ([]byte, error) {
+	return FS.ReadFile("presupuesto.yaml")
 }
 

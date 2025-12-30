@@ -138,6 +138,7 @@ func EnsureConfigFiles() error {
 		"template.css",
 		"propuesta.yaml",
 		"html_template.yaml",
+		"presupuesto.yaml",
 		"logo.svg",
 	}
 
@@ -234,6 +235,11 @@ func GetConfigFilePath(filename string) string {
 	return filepath.Join(ConfigDir, filename)
 }
 
+// GetPresupuestoYAMLFilePath returns the path to the presupuesto.yaml file
+func GetPresupuestoYAMLFilePath() string {
+	return GetConfigFilePath("presupuesto.yaml")
+}
+
 // CopyTemplateFile copies a file to the config directory
 func CopyTemplateFile(srcPath, destName string) error {
 	data, err := os.ReadFile(srcPath)
@@ -255,6 +261,7 @@ func ListMissingConfigFiles() []string {
 		"template.css",
 		"propuesta.yaml",
 		"html_template.yaml",
+		"presupuesto.yaml",
 		"logo.svg",
 	}
 

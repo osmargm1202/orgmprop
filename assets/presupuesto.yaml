@@ -1,0 +1,441 @@
+system: |
+  Eres un asistente especializado en la generación de cotizaciones y presupuestos para proyectos de ingeniería eléctrica en República Dominicana.
+  
+  Tu tarea es tomar descripciones de proyectos en lenguaje natural y convertirlas en estructuras JSON completas siguiendo el formato estándar de cotización proporcionado como referencia.
+  
+  REGLAS IMPORTANTES:
+  
+  1. PRECIOS Y VALORES:
+     - Usa los valores exactos proporcionados en la descripción del proyecto
+     - Mantén decimales variados según se indiquen (ej: 124.54, 2,847.89, 15,230.67)
+     - Todos los precios están en RD$ (pesos dominicanos) a menos que se indique otra moneda
+     - Calcula correctamente: total = precio × cantidad
+  
+  2. ESTRUCTURA DEL JSON:
+     - Sigue exactamente la estructura del JSON de ejemplo proporcionado
+     - Cada ítem del presupuesto tiene: id, item, descripcion, cantidad, unidad, precio, total, moneda, categoria, children
+     - Los children contienen los productos/partidas individuales
+     - Las categorías (cat1, cat2, cat3, etc.) son simplemente números ascendentes para identificar ítems parent
+  
+  3. CAMPOS VACÍOS POR DEFECTO (si no se especifican):
+     - id_cotizacion: ""
+     - id_cliente: ""
+     - cliente: ""
+     - rnc: ""
+     - br: ""
+     - contacto: ""
+     - fecha: ""
+     - proyecto: ""
+     - ubicacion: ""
+     - servicio: ""
+     - servicio_categoria: ""
+     - descripcion_general: ""
+     - tiempo_entrega: ""
+     - dias_validez: ""
+     - formato_pago: ""
+     - todas las notas (1-5): ""
+     - cliente_logo: ""
+  
+  4. VALORES POR DEFECTO:
+     - descuento_porcentaje: 0
+     - itbis_porcentaje: 18
+     - retencion_porcentaje: 0
+  
+  5. DATOS DEL TENANT (siempre usar estos valores):
+     - logo: "https://r2.or-gm.com/orgm.png"
+     - qr_code: "https://r2.or-gm.com/qr_code.png"
+     - rnc: "131-91523-1"
+     - razon_social: "ORGM EIRL"
+     - nombre_comercial: "ORGM"
+     - direccion: "Av. 27 de febrero #506,"
+     - ubicacion: "Santo Domingo, DN"
+  
+  6. UNIDADES COMUNES:
+     - Ud. (unidad)
+     - ML (metro lineal)
+     - M (metro)
+     - PA (precio alzado)
+     - GL (global)
+     - días, mes
+  
+  7. INDIRECTOS:
+     - Solo incluir si se mencionan explícitamente en la descripción del proyecto
+     - Si no se mencionan, dejar el array vacío: "indirectos": []
+     - Cada indirecto debe tener: id, descripcion, porcentaje (o null), monto
+  
+  8. IDs:
+     - Para ítems principales: item001, item002, item003, etc.
+     - Para children: item001_1, item001_2, item002_1, etc.
+     - Para indirectos: ind001, ind002, etc.
+  
+  9. ÍTEMS (I-X):
+     - Enumerar como: I-1, I-2, I-3, etc.
+  
+  10. PRODUCTOS (P-X):
+      - Dentro de cada ítem, enumerar como: P-1, P-2, P-3, etc.
+  
+  PROCESO:
+  
+  1. Lee y analiza cuidadosamente la descripción del proyecto
+  2. Identifica todos los componentes, materiales, servicios y precios mencionados
+  3. Organiza los ítems en grupos lógicos (cada grupo es un ítem principal)
+  4. Asigna categorías ascendentes (cat1, cat2, cat3...) a cada ítem principal
+  5. Genera IDs únicos siguiendo el formato especificado
+  6. Usa los precios exactos proporcionados en la descripción
+  7. Calcula todos los totales correctamente
+  8. Incluye indirectos solo si se mencionan explícitamente
+  9. Llena los campos de datos solo con la información proporcionada
+  10. Genera el JSON completo manteniendo la estructura del ejemplo
+  
+  RESPUESTA:
+  
+  Responde ÚNICAMENTE con el JSON válido, sin explicaciones adicionales, sin texto antes o después del JSON, y sin bloques de código markdown.
+
+user_template: |
+  Genera una cotización en formato JSON para el siguiente proyecto.
+  
+  Usa esta estructura de referencia:
+  {ejemplo_json}
+  
+  Descripción del proyecto:
+  {descripcion_proyecto}
+
+variables:
+  - name: descripcion_proyecto
+    type: string
+    required: true
+    description: Descripción completa del proyecto con todos los ítems, cantidades y precios
+  
+  - name: ejemplo_json
+    type: json
+    required: true
+    description: JSON de ejemplo con la estructura exacta a seguir
+
+output_format:
+  type: json
+  schema:
+    type: object
+    required: [datos, notas, presupuesto]
+    properties:
+      datos:
+        type: object
+        description: Información general de la cotización
+      notas:
+        type: object
+        description: Notas adicionales numeradas (1-5)
+      presupuesto:
+        type: object
+        properties:
+          indirectos:
+            type: array
+            description: Costos indirectos del proyecto (vacío si no se especifican)
+          presupuesto:
+            type: array
+            description: Ítems principales del presupuesto con sus children
+
+notas_tecnicas: |
+  - Las URLs de logos (orgm y cliente) son válidas y deben usarse tal como están
+  - Las categorías (cat1, cat2, etc.) son solo identificadores numéricos ascendentes
+  - No inventes información que no esté en la descripción del proyecto
+  - Mantén la precisión en los cálculos matemáticos
+  - Respeta el formato de moneda "RD$" para todos los precios
+
+
+aqui debajo dejo la cotizaicon de ejmeplo:
+    {
+      "datos": {
+        "id_cotizacion": "570",
+        "id_cliente": "0005",
+        "cliente": "ABASTEK MARKETING",
+        "rnc": "131649122",
+        "br": "MINISO RD",
+        "contacto": "EMMANUEL HERNANDEZ",
+        "fecha": "08/12/2025",
+        "proyecto": "NEW MINISO GALERIA 360 - ADICIONAL",
+        "ubicacion": "Distrito Nacional, Santo Domingo",
+        "servicio": "INSTALACIÓN DE SISTEMA ELÉCTRICO - ADICIONAL",
+        "servicio_categoria": "IEL",
+        "descripcion_general": "Trabajo adicional para suministro e instalación de materiales eléctricos y de red de datos, incluyendo tubería metálica EMT, conductores THHN, registros NEMA, cable UTP Cat 6, agujeros en piso y mano de obra.",
+        "tiempo_entrega": "INMEDIATO",
+        "dias_validez": "7",
+        "formato_pago": "CONTADO",
+        "descuento_porcentaje": 0,
+        "itbis_porcentaje": 18,
+        "retencion_porcentaje": 0,
+        "tenant": {
+          "logo": "https://r2.or-gm.com/orgm.png",
+          "qr_code": "https://r2.or-gm.com/qr_code.png",
+          "rnc": "131-91523-1",
+          "razon_social": "ORGM EIRL",
+          "nombre_comercial": "ORGM",
+          "direccion": "Av. 27 de febrero #506,",
+          "ubicacion": "Santo Domingo, DN"
+        },
+        "cliente_logo": "https://r2.or-gm.com/miniso.png"
+      },
+      "notas": {
+        "1": "TRABAJO ADICIONAL AL PROYECTO ORIGINAL",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": ""
+      },
+      "presupuesto": {
+        "indirectos": [
+                    {
+            "id": "ind001",
+            "item": "I-1",
+            "total": 20000.00,
+            "moneda": "RD$",
+            "precio": 20000.00,
+            "unidad": "PA",
+            "cantidad": 1,
+            "children": [],
+            "categoria": "cat1",
+            "descripcion": "DIRECCION TECNICA"
+          },
+          {
+            "id": "ind002",
+            "item": "I-2",
+            "total": 0,
+            "moneda": "RD$",
+            "precio": 2,
+            "unidad": "%",
+            "cantidad": 1,
+            "children": [],
+            "categoria": "cat2",
+            "descripcion": "DIRECCION TECNICA"
+          },
+        ],
+        "presupuesto": [
+          {
+            "id": "add001",
+            "item": "I-1",
+            "total": 15109.89,
+            "moneda": "",
+            "precio": 15109.89,
+            "unidad": "Ud.",
+            "cantidad": 1,
+            "children": [
+              {
+                "id": "add001_1",
+                "item": "P-1",
+                "total": 539.99,
+                "moneda": "RD$",
+                "precio": 152.54,
+                "unidad": "Ud.",
+                "cantidad": 3,
+                "descripcion": "CAJA METAL 5X5 USA 3/4-1 TP558"
+              },
+              {
+                "id": "add001_2",
+                "item": "P-2",
+                "total": 120.01,
+                "moneda": "RD$",
+                "precio": 33.90,
+                "unidad": "Ud.",
+                "cantidad": 3,
+                "descripcion": "CAJA METAL 2X4 USA 1/2 TP594"
+              },
+              {
+                "id": "add001_3",
+                "item": "P-3",
+                "total": 9299.93,
+                "moneda": "RD$",
+                "precio": 262.71,
+                "unidad": "Ud.",
+                "cantidad": 30,
+                "descripcion": "TUBERIA METALICA EMT 3/4''X10'"
+              },
+              {
+                "id": "add001_4",
+                "item": "P-4",
+                "total": 4349.95,
+                "moneda": "RD$",
+                "precio": 368.64,
+                "unidad": "Ud.",
+                "cantidad": 10,
+                "descripcion": "TUBERIA METALICA EMT 1''X10'"
+              },
+              {
+                "id": "add001_5",
+                "item": "P-5",
+                "total": 730.00,
+                "moneda": "RD$",
+                "precio": 309.32,
+                "unidad": "Ud.",
+                "cantidad": 2,
+                "descripcion": "REGISTRO METAL NEMA 1 8X8X4"
+              },
+              {
+                "id": "add001_6",
+                "item": "P-6",
+                "total": 70.01,
+                "moneda": "RD$",
+                "precio": 440.68,
+                "unidad": "Ud.",
+                "cantidad": 6,
+                "descripcion": "REGISTRO METAL NEMA 1 10X10X4"
+              }
+            ],
+            "categoria": "cat1",
+            "descripcion": "CAJAS Y TUBERÍAS METÁLICAS"
+          },
+          {
+            "id": "add002",
+            "item": "I-2",
+            "total": 24999.95,
+            "moneda": "RD$",
+            "precio": 24999.95,
+            "unidad": "Ud.",
+            "cantidad": 1,
+            "children": [
+              {
+                "id": "add002_1",
+                "item": "P-1",
+                "total": 24999.95,
+                "moneda": "RD$",
+                "precio": 529.66,
+                "unidad": "Ud.",
+                "cantidad": 40,
+                "descripcion": "TUBERIA METALICA EMT 1-1/2''X10'"
+              }
+            ],
+            "categoria": "cat2",
+            "descripcion": "TUBERÍA EMT GRUESA"
+          },
+          {
+            "id": "add003",
+            "item": "I-3",
+            "total": 111582.97,
+            "moneda": "",
+            "precio": 111582.97,
+            "unidad": "Ud.",
+            "cantidad": 1,
+            "children": [
+              {
+                "id": "add003_1",
+                "item": "P-1",
+                "total": 7918.27,
+                "moneda": "RD$",
+                "precio": 18.64,
+                "unidad": "Ud.",
+                "cantidad": 360,
+                "descripcion": "ALAMBRE THHN NO. 10 BLCO. ECOPLUS"
+              },
+              {
+                "id": "add003_2",
+                "item": "P-2",
+                "total": 65105.79,
+                "moneda": "RD$",
+                "precio": 18.64,
+                "unidad": "Ud.",
+                "cantidad": 2960,
+                "descripcion": "ALAMBRE THHN NO. 10 AZUL ECOPLUS"
+              },
+              {
+                "id": "add003_3",
+                "item": "P-3",
+                "total": 6158.66,
+                "moneda": "RD$",
+                "precio": 18.64,
+                "unidad": "Ud.",
+                "cantidad": 280,
+                "descripcion": "ALAMBRE THHN NO. 10 VERDE ECOPLUS"
+              },
+              {
+                "id": "add003_4",
+                "item": "P-4",
+                "total": 33000.35,
+                "moneda": "RD$",
+                "precio": 127.12,
+                "unidad": "Ud.",
+                "cantidad": 220,
+                "descripcion": "ALAMBRE THHN NO.2 BLCO. ECOPLUS"
+              },
+              {
+                "id": "add003_5",
+                "item": "P-5",
+                "total": 5399.92,
+                "moneda": "RD$",
+                "precio": 76.27,
+                "unidad": "Ud.",
+                "cantidad": 60,
+                "descripcion": "ALAMBRE THHN NO.4 BLCO. ECOPLUS"
+              }
+            ],
+            "categoria": "cat3",
+            "descripcion": "CONDUCTORES ELÉCTRICOS"
+          },
+          {
+            "id": "add004",
+            "item": "I-4",
+            "total": 37494.50,
+            "moneda": "",
+            "precio": 37494.50,
+            "unidad": "Ud.",
+            "cantidad": 1,
+            "children": [
+              {
+                "id": "add004_1",
+                "item": "P-1",
+                "total": 37494.50,
+                "moneda": "RD$",
+                "precio": 12.71,
+                "unidad": "Ud.",
+                "cantidad": 2500,
+                "descripcion": "CABLE UTP CAT. 6"
+              }
+            ],
+            "categoria": "cat4",
+            "descripcion": "RED DE DATOS"
+          },
+          {
+            "id": "add005",
+            "item": "I-5",
+            "total": 16200.00,
+            "moneda": "",
+            "precio": 16200.00,
+            "unidad": "Ud.",
+            "cantidad": 1,
+            "children": [
+              {
+                "id": "add005_1",
+                "item": "P-1",
+                "total": 16200.00,
+                "moneda": "RD$",
+                "precio": 2700.00,
+                "unidad": "Ud.",
+                "cantidad": 6,
+                "descripcion": "AGUJERO EN PISO"
+              }
+            ],
+            "categoria": "cat5",
+            "descripcion": "PERFORACIONES"
+          },
+          {
+            "id": "add006",
+            "item": "I-6",
+            "total": 75000.00,
+            "moneda": "",
+            "precio": 75000.00,
+            "unidad": "Ud.",
+            "cantidad": 1,
+            "children": [
+              {
+                "id": "add006_1",
+                "item": "P-1",
+                "total": 75000.00,
+                "moneda": "RD$",
+                "precio": 75000.00,
+                "unidad": "PA",
+                "cantidad": 1,
+                "descripcion": "MANO DE OBRA PARA INSTALACIÓN COMPLETA DE SISTEMA ELÉCTRICO, CANALIZACIÓN, CONDUCTORES, REGISTROS Y RED DE DATOS"
+              }
+            ],
+            "categoria": "cat6",
+            "descripcion": "MANO DE OBRA"
+          }
+        ]
+      }
+    }

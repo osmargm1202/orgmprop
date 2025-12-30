@@ -16,9 +16,11 @@ type MenuOption struct {
 func MainMenuOptions() []MenuOption {
 	return []MenuOption{
 		{Label: "📝 Nueva Propuesta", Value: "new"},
+		{Label: "💰 Generar Presupuesto", Value: "presupuesto"},
 		{Label: "📂 Crear Proyecto", Value: "proyecto"},
 		{Label: "📋 Listar Proyectos", Value: "list"},
 		{Label: "📊 Resumen de Propuestas", Value: "resumen"},
+		{Label: "💰 Resumen de Presupuestos", Value: "resumen_presupuestos"},
 		{Label: "⚙️  Configuración", Value: "config"},
 		{Label: "❌ Salir", Value: "exit"},
 	}
@@ -32,6 +34,7 @@ func ConfigMenuOptions() []MenuOption {
 		{Label: "📁 Configurar Carpeta Base", Value: "folder"},
 		{Label: "📄 Actualizar Template (CSS)", Value: "css"},
 		{Label: "📄 Actualizar Prompt (YAML)", Value: "yaml"},
+		{Label: "💰 Actualizar Presupuesto (YAML)", Value: "presupuesto_yaml"},
 		{Label: "🖼️  Actualizar Logo", Value: "logo"},
 		{Label: "⬅️  Volver", Value: "back"},
 	}
@@ -155,6 +158,13 @@ type ProposalSummary struct {
 	FilePath string
 }
 
+// PresupuestoSummary represents a budget summary for display
+type PresupuestoSummary struct {
+	Project  string
+	Date     string
+	FilePath string
+}
+
 // ShowProposalSummaries displays a list of proposal summaries
 func ShowProposalSummaries(summaries []ProposalSummary) (string, error) {
 	if len(summaries) == 0 {
@@ -174,6 +184,37 @@ func ShowProposalSummaries(summaries []ProposalSummary) (string, error) {
 		huh.NewGroup(
 			huh.NewSelect[string]().
 				Title("Propuestas Disponibles").
+				Options(opts...).
+				Value(&selected),
+		),
+	).WithTheme(getTheme())
+
+	if err := form.Run(); err != nil {
+		return "", err
+	}
+
+	return selected, nil
+}
+
+// ShowPresupuestoSummaries displays a list of budget summaries
+func ShowPresupuestoSummaries(summaries []PresupuestoSummary) (string, error) {
+	if len(summaries) == 0 {
+		PrintWarning("No hay presupuestos disponibles")
+		return "", nil
+	}
+
+	opts := make([]huh.Option[string], len(summaries)+1)
+	for i, summary := range summaries {
+		label := fmt.Sprintf("%s | %s", summary.Project, summary.Date)
+		opts[i] = huh.NewOption(label, summary.FilePath)
+	}
+	opts[len(summaries)] = huh.NewOption("⬅️ Volver", "back")
+
+	var selected string
+	form := huh.NewForm(
+		huh.NewGroup(
+			huh.NewSelect[string]().
+				Title("Presupuestos Disponibles").
 				Options(opts...).
 				Value(&selected),
 		),

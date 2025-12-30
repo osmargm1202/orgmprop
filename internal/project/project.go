@@ -236,6 +236,70 @@ func GetProposalSummaries() ([]ui.ProposalSummary, error) {
 	return summaries, nil
 }
 
+// PresupuestoSummary represents a summary of a budget
+type PresupuestoSummary struct {
+	Project  string
+	Date     time.Time
+	FilePath string
+}
+
+// GetPresupuestoSummaries scans all projects for budgets
+func GetPresupuestoSummaries() ([]ui.PresupuestoSummary, error) {
+	logger.Debug("Escaneando presupuestos")
+
+	// Get base folder
+	baseFolder, err := config.GetBaseFolder()
+	if err != nil {
+		return nil, fmt.Errorf("carpeta base no configurada: %w", err)
+	}
+
+	var summaries []ui.PresupuestoSummary
+
+	// Read all project directories
+	entries, err := os.ReadDir(baseFolder)
+	if err != nil {
+		return nil, fmt.Errorf("error leyendo directorio base: %w", err)
+	}
+
+	for _, entry := range entries {
+		if !entry.IsDir() {
+			continue
+		}
+
+		projectName := entry.Name()
+		ofertaPath := filepath.Join(baseFolder, projectName, "Oferta")
+
+		// Check if Oferta folder exists
+		if _, err := os.Stat(ofertaPath); os.IsNotExist(err) {
+			continue
+		}
+
+		// Check for presupuesto.json
+		jsonPath := filepath.Join(ofertaPath, "presupuesto.json")
+		jsonInfo, err := os.Stat(jsonPath)
+		if os.IsNotExist(err) {
+			continue
+		}
+
+		// Use file modification time as date
+		date := jsonInfo.ModTime()
+
+		summaries = append(summaries, ui.PresupuestoSummary{
+			Project:  projectName,
+			Date:     date.Format("2006-01-02"),
+			FilePath: jsonPath,
+		})
+	}
+
+	// Sort by date (newest first)
+	sort.Slice(summaries, func(i, j int) bool {
+		return summaries[i].Date > summaries[j].Date
+	})
+
+	logger.Debug("Encontrados %d presupuestos", len(summaries))
+	return summaries, nil
+}
+
 // getFolderStructure returns the folder structure to use
 func getFolderStructure() []string {
 	// Try to load from folder.json in config directory

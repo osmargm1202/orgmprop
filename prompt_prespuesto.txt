@@ -1,0 +1,101 @@
+22 postes de concreto a 27200 mil pesos, asumiendo 2 postes existentes a reubicar, 35pies de altura.
+
+vestiruda de poste en 8500
+
+puesta a tierra en 22000
+
+aprobacion en interconexion, diseno levantamiento, CODIA. 60000
+
+cada transfomrador tipo poste para formar el trifasico es de 88700 pesos de 37,5kVA y son 3, 
+ 
+accesorios generales 18000
+
+paneles princiapels 12000
+
+cable dariesn a 550m el mestro para 15 poste a 30 pies de distancia y multiplicado por 3 fases.
+
+a 6000 hoyo de cada poste.
+
+25000 la vestida de poste de interconexion y poste de transformado serian 50000
+
+145000 sistema de control horario con redundancia a fallo para contrato de consumo fuera de punta. (opcional)
+
+panelboard y main breaker principal 23560
+
+obracivil asociada a base de equipos panelboard y mainbreaker sistema de control todo en uno de 22340.
+
+1 mes de estadia comida. para 3 personas desayuno a 300, comida a 500 cena a 300, durante un mes, estadia 
+
+mano de obra de ejecucion por poste con investidura, izaje y armado de trnasfprmadr por poste 9000. el transformador en en 35mil y el de insterconexion en 29mil
+
+cableado de transformador a panel en cable 4/0 y tuberia IMC con condulet y accesorios el cable a 290 pesos el pie de calbe por 3 lineas mas neuetro y tierra, el tubo cuesta cada dies pies 1900 y y los accesorios son riel de strut, fijaciones. la longitud lineal es de 20 metros total de la cnal izacion. hay una parte en tuberia PVC de 4pulgadas hasta el panel y esta tuberia cuesta 1899 cada 19 pies.
+
+no usar valores exactos usar valosre com 124.54, y asi. solo algunos con 00 o con 00.00
+
+de cada renglon pondras la descricion total y el precio total que calculaste.
+
+logistica de materiales 30mil pesos.
+
+movilidad en proyecto un vehiculo a 30 dolares por dia durante 30 dias. movilidad y logistica van juntos
+
+las estadias y miscelaneso van en indirectos 2 porciento del subtotal del presupuesto , supervision 2 porciento, direccion tecnica 10 porciento, seguros de responsabilidad civil, 
+
+como referencia el klometro de trifasico sale en la realidad en republica dominicna a 1600000 sin transformadores ni paneles ni nada solo postes, lineas armado hoyos, entonces agrega una nota que diga a cuanto sale el proyecto si tiene 850m de longitud cuanto por kilometro.
+
+ficha tecnica de transformado
+
+PLANILLA DE DATOS GARANTIZADOS											
+							
+					CÓDIGOS		1008118
+Transformador  tipo poste monofásico CSP 37.5 KVA 12470GrdY/7200 V – 120/240 V					FECHA DE REVISION		10/7/2019
+					AREA ESPECIALISTA:  División de Normativa & Normalización.		
+							
+DESCRIPCION SAP:  TRANSF TP 1Ø CSP 7.2KV 37 KVA							
+ITEM	DATOS	UNIDAD	PEDIDO	OFRECIDO		COMENTARIO	
+1	Empresa proveedora	….	(*)				
+2	Fabricante	….	(*)				
+3	Modelo	….	(*)				
+4	Presentación prueba de laboratorio	….	SI				
+5	País de origen	….	(*)				
+6	Tipo	….	CSP				
+6.1	Presentación de la serie en la cuba	….	SI				
+7	Norma de fabricación y ensayos	….	ANSI 57.12.00  ANSI 57.12.90				
+8	Características Constructivas		 Requerido  				
+8.1	Dispositivo de alivio de presión	- 	Válvula de alivio  o diseño  tapa-válvula				
+8.2	Provisión y conector de aterrizaje del tanque	-	si				
+8.3	Conexión de tierra a la baja tensión	Unidad	Cinta de cobre				
+8.4	Regulación de tensión	%	+2.5/-7.5(**)				
+8.5	Polaridad	-	Aditiva				
+8.6	Requerimiento de aceite aislante	-	ASTM D3487				
+8.7	Garantía	años	≥3				
+8.8	Tiempo de entrega	días	90(*)				
+8.9	Color	....	Gris #70				
+9	Características Eléctricas						
+9.1	Tensión primaria asignada	V	12470GY/7200 				
+9.2	Tensión secundaria asignada	V	120/240				
+9.3	Tensión de cortocircuito	%	≤ 3				
+9.4	BIL primario	kV	95				
+9.5	BIL secundario	kV	30				
+9.6	Frecuencia	Hz	60				
+9.7	Refrigeración	-	ONAN				
+9.8	Elevación max. Temperatura devanado	ºC	65				
+9.9	Tensión primaria a baja frecuencia	kV	34				
+10	Borna alta tensión						
+10.1	BIL	kV	95				
+10.2	Tensión a baja frecuencia en seco	kV	34				
+10.3	Línea de fuga mínima	mm	≥267±13  				
+11	Bornas baja tensión						
+11.1	BIL	kV	30				
+11.2	Tensión a baja frecuencia en seco	kV	6				
+12	Pérdidas						
+12.1	En vacío	W	≤130				
+12.2	Bajo carga referidas a 85 ºC	W	≤405				
+13	Protección						
+13.1	Protección contra sobretensiones		Parrarayo polimerico  heavy duty 10 Kv MCOV 8.4Kv (**) 				
+13.2	Protección cortocircuito		Fusibles Limitadores				
+13.3	Tipo protección sobrecarga		Interruptor con protección termomagnética				
+13.4	Capacidad de sobrecarga	%	≥ 30				
+14	Certificación ISO 9000 o similar.		SI				
+
+
+

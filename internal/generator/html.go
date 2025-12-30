@@ -14,6 +14,60 @@ import (
 	"orgmprop/internal/logger"
 )
 
+// SaveProposalPrompt saves the prompt to a file in the current directory
+func SaveProposalPrompt(prompt string) error {
+	logger.Debug("Guardando prompt de propuesta")
+
+	// Get current directory
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("error obteniendo directorio actual: %w", err)
+	}
+
+	// Check if prompt file exists
+	promptPath := filepath.Join(cwd, "propuesta_prompt.txt")
+	existingPrompt := ""
+	if data, err := os.ReadFile(promptPath); err == nil {
+		existingPrompt = string(data)
+		logger.Debug("Prompt existente encontrado, agregando nuevo contenido")
+	}
+
+	// Combine prompts
+	var finalPrompt string
+	if existingPrompt != "" {
+		finalPrompt = existingPrompt + "\n\n--- NUEVA SOLICITUD ---\n\n" + prompt
+	} else {
+		finalPrompt = prompt
+	}
+
+	// Save prompt
+	if err := os.WriteFile(promptPath, []byte(finalPrompt), 0644); err != nil {
+		return fmt.Errorf("error guardando prompt: %w", err)
+	}
+
+	logger.Debug("Prompt guardado en: %s", promptPath)
+	return nil
+}
+
+// LoadProposalPrompt loads the existing prompt from the current directory
+func LoadProposalPrompt() (string, error) {
+	cwd, err := os.Getwd()
+	if err != nil {
+		return "", fmt.Errorf("error obteniendo directorio actual: %w", err)
+	}
+
+	promptPath := filepath.Join(cwd, "propuesta_prompt.txt")
+	data, err := os.ReadFile(promptPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return "", nil // No existe, retornar vacío
+		}
+		return "", fmt.Errorf("error leyendo prompt: %w", err)
+	}
+
+	return string(data), nil
+}
+
 // ProposalData represents the proposal data stored in JSON
 type ProposalData struct {
 	Titulo    string    `json:"titulo"`

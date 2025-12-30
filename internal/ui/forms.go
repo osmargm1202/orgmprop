@@ -263,3 +263,24 @@ func NewProjectForm() (*ProjectForm, error) {
 	return form, nil
 }
 
+// NewPresupuestoForm shows a form for entering project description for budget generation
+func NewPresupuestoForm() (string, error) {
+	var descripcion string
+
+	f := huh.NewForm(
+		huh.NewGroup(
+			huh.NewText().
+				Title("Descripción del Proyecto").
+				Placeholder("Describe el proyecto con todos los ítems, cantidades y precios...").
+				CharLimit(10000).
+				Value(&descripcion),
+		),
+	).WithTheme(getTheme())
+
+	if err := f.Run(); err != nil {
+		return "", err
+	}
+
+	return descripcion, nil
+}
+
